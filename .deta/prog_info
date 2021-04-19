@@ -1,0 +1,1 @@
+{"id":"6991cc45-3de7-4abb-be8d-e469531924e2","space":3315,"runtime":"nodejs12.x","name":"twitter-clone","path":"26lm7q","project":"a0yplvs1","account":"144798365827","region":"ap-southeast-1","deps":["express@^4.17.1","deta@^0.0.8","http-status-codes@^2.1.4","joi@^17.4.0"],"envs":["DETA_PROJECT_KEY"],"public":true,"log_level":"debug","cron":"","reload_deps":false}
