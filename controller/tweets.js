@@ -23,8 +23,16 @@ function unlike(req, res, next) {
     .catch((err) => next(err));
 }
 
+function getAll(req, res, next) {
+  tweetService
+    .getAllTweets(req.body)
+    .then((data) => res.status(StatusCodes.OK).json({ data }))
+    .catch((err) => next(err));
+}
+
 module.exports = {
   create,
   like,
   unlike,
+  getAll,
 };

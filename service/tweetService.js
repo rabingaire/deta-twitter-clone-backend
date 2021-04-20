@@ -78,8 +78,22 @@ async function unlikeTweet(tweet) {
   return { ...tweetdata, likes: likes };
 }
 
+async function getAllTweets(tweet) {
+  const { username } = tweet;
+
+  const response = [];
+
+  const tweets = db.tweets.fetch({ username });
+  for await (const tweet of tweets) {
+    response.push(...tweet);
+  }
+
+  return response;
+}
+
 module.exports = {
   createTweet,
   likeTweet,
   unlikeTweet,
+  getAllTweets,
 };
