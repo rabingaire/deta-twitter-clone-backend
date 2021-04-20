@@ -1,6 +1,6 @@
 const db = require("../model/user");
 
-const { BadRequest } = require("../utils/errors");
+const { BadRequest, ForbiddenRequest } = require("../utils/errors");
 
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
@@ -19,13 +19,18 @@ async function createUser(user) {
     .update(password)
     .digest("base64");
 
-  const insertedUser = await db.users.put({
+  await db.users.put({
     username,
     password: encyptPassword,
     key: username,
+    description: "",
+    followers: 0,
+    following: 0,
   });
 
-  return insertedUser;
+  return {
+    username,
+  };
 }
 
 async function loginUser(user) {
@@ -55,7 +60,29 @@ async function loginUser(user) {
   };
 }
 
+async function editUser(user) {
+  const { username, description } = user;
+
+  const userdata = await db.users.get(username);
+
+  if (!userdata) {
+    throw new ForbiddenRequest("forbidden error can't process the request");
+  }
+
+  await db.users.update(
+    {
+      description,
+    },
+    username
+  );
+
+  return {
+    description,
+  };
+}
+
 module.exports = {
   createUser,
   loginUser,
+  editUser,
 };
