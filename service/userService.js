@@ -63,12 +63,6 @@ async function loginUser(user) {
 async function editUser(user) {
   const { username, description } = user;
 
-  const userdata = await db.users.get(username);
-
-  if (!userdata) {
-    throw new ForbiddenRequest("forbidden error can't process the request");
-  }
-
   await db.users.update(
     {
       description,

@@ -33,9 +33,8 @@ function userauthValidator(req, res, next) {
 function editUserValidator(req, res, next) {
   const schema = Joi.object({
     description: Joi.string()
-      .alphanum()
       .max(140)
-      .error(new BadRequest("description can only be of max 150 characters")),
+      .error(new BadRequest("description can only be of max 140 characters")),
   });
 
   return validate(req.body, schema)
