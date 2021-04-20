@@ -24,8 +24,6 @@ async function createUser(user) {
     password: encyptPassword,
     key: username,
     description: "",
-    followers: 0,
-    following: 0,
   });
 
   return {
@@ -56,7 +54,7 @@ async function loginUser(user) {
   });
 
   return {
-    accessToken,
+    accessToken: `Bearer ${accessToken}`,
   };
 }
 

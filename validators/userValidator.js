@@ -44,7 +44,25 @@ function editUserValidator(req, res, next) {
     });
 }
 
+function followUserValidator(req, res, next) {
+  const schema = Joi.object({
+    id: Joi.string()
+      .alphanum()
+      .min(3)
+      .max(30)
+      .required()
+      .error(new BadRequest("id is a required field")),
+  });
+
+  return validate(req.body, schema)
+    .then(() => next())
+    .catch((err) => {
+      next(err);
+    });
+}
+
 module.exports = {
   userauthValidator,
   editUserValidator,
+  followUserValidator,
 };

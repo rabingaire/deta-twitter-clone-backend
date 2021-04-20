@@ -1,6 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
 
 const userService = require("../service/userService");
+const followingService = require("../service/followingService");
+const followerService = require("../service/followerService");
 
 function create(req, res, next) {
   userService
@@ -23,8 +25,19 @@ function edit(req, res, next) {
     .catch((err) => next(err));
 }
 
+function follow(req, res, next) {
+  const following = followingService.followUser(req.body);
+
+  const follower = followerService.followUser(req.body);
+
+  Promise.all([following, follower])
+    .then((data) => res.status(StatusCodes.OK).json({ data: data[0] }))
+    .catch((err) => next(err));
+}
+
 module.exports = {
   create,
   login,
   edit,
+  follow,
 };
