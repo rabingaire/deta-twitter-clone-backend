@@ -20,7 +20,7 @@ async function followUser(user) {
     };
   }
 
-  if (!followingdata.usernames.includes(username)) {
+  if (followingdata.usernames.includes(id)) {
     throw new ForbiddenRequest(
       "forbidden error can't process following request"
     );
