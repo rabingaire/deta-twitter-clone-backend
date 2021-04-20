@@ -5,6 +5,12 @@ const { ForbiddenRequest } = require("../utils/errors");
 async function followUser(user) {
   const { username, id } = user;
 
+  if (username === id) {
+    throw new ForbiddenRequest(
+      "forbidden error can't process following request"
+    );
+  }
+
   const followingdata = await db.following.get(username);
   if (!followingdata) {
     await db.following.put(
