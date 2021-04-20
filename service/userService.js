@@ -1,6 +1,6 @@
 const db = require("../model/user");
 
-const { BadRequest, ForbiddenRequest } = require("../utils/errors");
+const { BadRequest } = require("../utils/errors");
 
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");

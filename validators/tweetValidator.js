@@ -3,7 +3,7 @@ const { BadRequest } = require("../utils/errors");
 
 const validate = require("../utils/validate");
 
-function tweetValidator(req, res, next) {
+function tweetCreateValidator(req, res, next) {
   const schema = Joi.object({
     body: Joi.string()
       .max(140)
@@ -22,6 +22,22 @@ function tweetValidator(req, res, next) {
     });
 }
 
+function tweetActionValidator(req, res, next) {
+  const schema = Joi.object({
+    id: Joi.string()
+      .alphanum()
+      .required()
+      .error(new BadRequest("id is a required field")),
+  });
+
+  return validate(req.body, schema)
+    .then(() => next())
+    .catch((err) => {
+      next(err);
+    });
+}
+
 module.exports = {
-  tweetValidator,
+  tweetCreateValidator,
+  tweetActionValidator,
 };
