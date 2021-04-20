@@ -9,6 +9,14 @@ function create(req, res, next) {
     .catch((err) => next(err));
 }
 
+function login(req, res, next) {
+  userService
+    .loginUser(req.body)
+    .then((data) => res.status(StatusCodes.OK).json({ data }))
+    .catch((err) => next(err));
+}
+
 module.exports = {
   create,
+  login,
 };
