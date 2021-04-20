@@ -27,4 +27,12 @@ router.post(
   userController.follow
 );
 
+// POST: /api/v1/users/unfollow
+router.post(
+  "/unfollow",
+  followUserValidator,
+  authenticate,
+  userController.unfollow
+);
+
 module.exports = router;

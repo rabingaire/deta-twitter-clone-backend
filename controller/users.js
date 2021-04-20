@@ -35,9 +35,20 @@ function follow(req, res, next) {
     .catch((err) => next(err));
 }
 
+function unfollow(req, res, next) {
+  const following = followingService.unfollowUser(req.body);
+
+  const follower = followerService.unfollowUser(req.body);
+
+  Promise.all([following, follower])
+    .then((data) => res.status(StatusCodes.OK).json({ data: data[0] }))
+    .catch((err) => next(err));
+}
+
 module.exports = {
   create,
   login,
   edit,
   follow,
+  unfollow,
 };

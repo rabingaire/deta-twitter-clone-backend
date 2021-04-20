@@ -1,6 +1,7 @@
 const db = require("../model/follower");
 
 const { ForbiddenRequest } = require("../utils/errors");
+const { removeItem } = require("../utils/utils");
 
 async function followUser(user) {
   const { username, id } = user;
@@ -45,6 +46,44 @@ async function followUser(user) {
   };
 }
 
+async function unfollowUser(user) {
+  const { username, id } = user;
+
+  if (username === id) {
+    throw new ForbiddenRequest(
+      "forbidden error can't process following request"
+    );
+  }
+
+  const followerdata = await db.followers.get(id);
+  if (!followerdata) {
+    throw new ForbiddenRequest(
+      "forbidden error can't process following request"
+    );
+  }
+
+  if (!followerdata.usernames.includes(username)) {
+    throw new ForbiddenRequest(
+      "forbidden error can't process following request"
+    );
+  }
+
+  const usernames = removeItem(followerdata.usernames, username);
+
+  await db.followers.update(
+    {
+      count: followerdata.count - 1,
+      usernames,
+    },
+    id
+  );
+
+  return {
+    message: "operation successful",
+  };
+}
+
 module.exports = {
   followUser,
+  unfollowUser,
 };

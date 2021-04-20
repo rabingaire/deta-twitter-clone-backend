@@ -2,6 +2,8 @@ const db = require("../model/tweet");
 
 const { ForbiddenRequest } = require("../utils/errors");
 
+const { removeItem } = require("../utils/utils");
+
 async function createTweet(tweet) {
   const { username, body } = tweet;
 
@@ -44,10 +46,6 @@ async function likeTweet(tweet) {
 }
 
 async function unlikeTweet(tweet) {
-  function removeItem(arr, value) {
-    return arr.filter((val) => val !== value);
-  }
-
   const { username, id } = tweet;
 
   const tweetdata = await db.tweets.get(id);
