@@ -103,7 +103,7 @@ async function fetchTweets(username) {
 
 async function fetchSingleTweet(username) {
   const { value } = await db.tweets.fetch({ username }).next();
-  return value[0];
+  return value;
 }
 
 async function getMyTweetsFeed(user) {
@@ -111,7 +111,7 @@ async function getMyTweetsFeed(user) {
 
   const tweets = [];
 
-  tweets.push(await fetchSingleTweet(username));
+  tweets.push(...(await fetchSingleTweet(username)));
 
   const following = await getFollowing(username);
   const promises = following.usernames.map(async (username) => {
@@ -119,7 +119,7 @@ async function getMyTweetsFeed(user) {
   });
 
   const followingTweets = await Promise.all(promises);
-  tweets.push(...followingTweets);
+  tweets.push(...followingTweets.flat());
 
   return tweets.map((tweet) => {
     const isLiked = tweet.likes.usernames.includes(username);
