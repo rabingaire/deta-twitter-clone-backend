@@ -35,4 +35,7 @@ router.post(
   userController.unfollow
 );
 
+// GET: /api/v1/users/myprofile
+router.get("/myprofile", authenticate, userController.myprofile);
+
 module.exports = router;

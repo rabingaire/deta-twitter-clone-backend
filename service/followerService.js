@@ -83,7 +83,21 @@ async function unfollowUser(user) {
   };
 }
 
+async function getFollowers(username) {
+  const data = await db.followers.get(username);
+  if (!data) {
+    return {
+      count: 0,
+      usernames: [],
+    };
+  }
+  delete data.key;
+
+  return data;
+}
+
 module.exports = {
   followUser,
   unfollowUser,
+  getFollowers,
 };

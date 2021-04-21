@@ -45,10 +45,18 @@ function unfollow(req, res, next) {
     .catch((err) => next(err));
 }
 
+function myprofile(req, res, next) {
+  userService
+    .myprofile(req.body)
+    .then((data) => res.status(StatusCodes.OK).json({ data }))
+    .catch((err) => next(err));
+}
+
 module.exports = {
   create,
   login,
   edit,
   follow,
   unfollow,
+  myprofile,
 };

@@ -13,15 +13,21 @@ class GeneralError extends Error {
       return 403;
     }
 
+    if (this instanceof NotFound) {
+      return 404;
+    }
+
     return 500;
   }
 }
 
 class BadRequest extends GeneralError {}
 class ForbiddenRequest extends GeneralError {}
+class NotFound extends GeneralError {}
 
 module.exports = {
   GeneralError,
   BadRequest,
   ForbiddenRequest,
+  NotFound,
 };

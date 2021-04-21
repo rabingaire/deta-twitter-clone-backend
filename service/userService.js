@@ -1,6 +1,8 @@
 const db = require("../model/user");
 
 const { BadRequest } = require("../utils/errors");
+const { getFollowers } = require("./followerService");
+const { getFollowing } = require("./followingService");
 
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
@@ -73,8 +75,25 @@ async function editUser(user) {
   };
 }
 
+async function myprofile(user) {
+  const { username } = user;
+
+  const userdata = await db.users.get(username);
+  const followers = await getFollowers(username);
+  const following = await getFollowing(username);
+
+  return {
+    id: userdata.key,
+    username: userdata.username,
+    description: userdata.description,
+    followers,
+    following,
+  };
+}
+
 module.exports = {
   createUser,
   loginUser,
   editUser,
+  myprofile,
 };
