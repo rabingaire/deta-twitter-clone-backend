@@ -121,7 +121,10 @@ async function getMyTweetsFeed(user) {
   const followingTweets = await Promise.all(promises);
   tweets.push(...followingTweets);
 
-  return tweets;
+  return tweets.map((tweet) => {
+    const isLiked = tweet.likes.usernames.includes(username);
+    return { ...tweet, likes: { ...tweet.likes, isLiked } };
+  });
 }
 
 module.exports = {
