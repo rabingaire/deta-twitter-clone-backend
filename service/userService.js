@@ -1,6 +1,6 @@
 const db = require("../model/user");
 
-const { BadRequest } = require("../utils/errors");
+const { BadRequest, NotFound } = require("../utils/errors");
 const { getFollowers } = require("./followerService");
 const { getFollowing } = require("./followingService");
 
@@ -77,8 +77,21 @@ async function editUser(user) {
 
 async function myprofile(user) {
   const { username } = user;
+  const userinfo = await getprofileInfo(username);
+  return userinfo;
+}
 
+async function getUserProfile(params) {
+  const { userid } = params;
+  const userinfo = await getprofileInfo(userid);
+  return userinfo;
+}
+
+async function getprofileInfo(username) {
   const userdata = await db.users.get(username);
+  if (!userdata) {
+    throw new NotFound("user not found");
+  }
   const followers = await getFollowers(username);
   const following = await getFollowing(username);
 
@@ -96,4 +109,5 @@ module.exports = {
   loginUser,
   editUser,
   myprofile,
+  getUserProfile,
 };

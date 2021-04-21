@@ -28,7 +28,10 @@ router.post(
   tweetController.unlike
 );
 
-// GET: /api/v1/tweets/
-router.get("/", authenticate, tweetController.getAll);
+// GET: /api/v1/tweets/mytweets
+router.get("/mytweets", authenticate, tweetController.getAllMyTweets);
+
+// GET: /api/v1/tweets/:userid
+router.get("/:userid", authenticate, tweetController.getUserTweets);
 
 module.exports = router;

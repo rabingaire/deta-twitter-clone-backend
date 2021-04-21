@@ -38,4 +38,7 @@ router.post(
 // GET: /api/v1/users/myprofile
 router.get("/myprofile", authenticate, userController.myprofile);
 
+// GET: /api/v1/users/:userid
+router.get("/:userid", authenticate, userController.getUserProfile);
+
 module.exports = router;

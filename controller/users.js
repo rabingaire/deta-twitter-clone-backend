@@ -52,6 +52,13 @@ function myprofile(req, res, next) {
     .catch((err) => next(err));
 }
 
+function getUserProfile(req, res, next) {
+  userService
+    .getUserProfile(req.params)
+    .then((data) => res.status(StatusCodes.OK).json({ data }))
+    .catch((err) => next(err));
+}
+
 module.exports = {
   create,
   login,
@@ -59,4 +66,5 @@ module.exports = {
   follow,
   unfollow,
   myprofile,
+  getUserProfile,
 };

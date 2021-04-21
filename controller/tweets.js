@@ -23,9 +23,16 @@ function unlike(req, res, next) {
     .catch((err) => next(err));
 }
 
-function getAll(req, res, next) {
+function getAllMyTweets(req, res, next) {
   tweetService
-    .getAllTweets(req.body)
+    .getAllMyTweets(req.body)
+    .then((data) => res.status(StatusCodes.OK).json({ data }))
+    .catch((err) => next(err));
+}
+
+function getUserTweets(req, res, next) {
+  tweetService
+    .getUserTweets(req.params)
     .then((data) => res.status(StatusCodes.OK).json({ data }))
     .catch((err) => next(err));
 }
@@ -34,5 +41,6 @@ module.exports = {
   create,
   like,
   unlike,
-  getAll,
+  getAllMyTweets,
+  getUserTweets,
 };
