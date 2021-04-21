@@ -31,6 +31,9 @@ router.post(
 // GET: /api/v1/tweets/mytweets
 router.get("/mytweets", authenticate, tweetController.getAllMyTweets);
 
+// GET: /api/v1/tweets/myfeed
+router.get("/myfeed", authenticate, tweetController.getMyTweetsFeed);
+
 // GET: /api/v1/tweets/:userid
 router.get("/:userid", authenticate, tweetController.getUserTweets);
 

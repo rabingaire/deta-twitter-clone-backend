@@ -37,10 +37,18 @@ function getUserTweets(req, res, next) {
     .catch((err) => next(err));
 }
 
+function getMyTweetsFeed(req, res, next) {
+  tweetService
+    .getMyTweetsFeed(req.body)
+    .then((data) => res.status(StatusCodes.OK).json({ data }))
+    .catch((err) => next(err));
+}
+
 module.exports = {
   create,
   like,
   unlike,
   getAllMyTweets,
   getUserTweets,
+  getMyTweetsFeed,
 };

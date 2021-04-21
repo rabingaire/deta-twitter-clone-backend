@@ -1,8 +1,8 @@
 const db = require("../model/tweet");
 
 const { ForbiddenRequest } = require("../utils/errors");
-
 const { removeItem } = require("../utils/utils");
+const { getFollowing } = require("./followingService");
 
 async function createTweet(tweet) {
   const { username, body } = tweet;
@@ -101,10 +101,34 @@ async function fetchTweets(username) {
   return response;
 }
 
+async function fetchSingleTweet(username) {
+  const { value } = await db.tweets.fetch({ username }).next();
+  return value[0];
+}
+
+async function getMyTweetsFeed(user) {
+  const { username } = user;
+
+  const tweets = [];
+
+  tweets.push(await fetchSingleTweet(username));
+
+  const following = await getFollowing(username);
+  const promises = following.usernames.map(async (username) => {
+    return await fetchSingleTweet(username);
+  });
+
+  const followingTweets = await Promise.all(promises);
+  tweets.push(...followingTweets);
+
+  return tweets;
+}
+
 module.exports = {
   createTweet,
   likeTweet,
   unlikeTweet,
   getAllMyTweets,
   getUserTweets,
+  getMyTweetsFeed,
 };
