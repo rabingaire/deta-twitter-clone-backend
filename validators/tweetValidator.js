@@ -7,6 +7,7 @@ function tweetCreateValidator(req, res, next) {
   const schema = Joi.object({
     body: Joi.string()
       .max(140)
+      .trim()
       .required()
       .error(
         new BadRequest(

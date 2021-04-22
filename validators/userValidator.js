@@ -9,6 +9,7 @@ function userauthValidator(req, res, next) {
       .alphanum()
       .min(3)
       .max(10)
+      .trim()
       .required()
       .error(
         new BadRequest(
@@ -39,6 +40,7 @@ function editUserValidator(req, res, next) {
     description: Joi.string()
       .min(1)
       .max(140)
+      .trim()
       .error(
         new BadRequest(
           "description cannot be empty or more than 140 characters"
