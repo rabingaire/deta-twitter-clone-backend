@@ -98,7 +98,10 @@ async function fetchTweets(username) {
     response.push(...tweet);
   }
 
-  return response;
+  return response.map((tweet) => {
+    const isLiked = tweet.likes.usernames.includes(username);
+    return { ...tweet, likes: { ...tweet.likes, isLiked } };
+  });
 }
 
 async function fetchSingleTweet(username) {
