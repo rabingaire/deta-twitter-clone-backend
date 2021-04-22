@@ -33,6 +33,7 @@ function userauthValidator(req, res, next) {
 function editUserValidator(req, res, next) {
   const schema = Joi.object({
     description: Joi.string()
+      .min(1)
       .max(140)
       .error(new BadRequest("description can only be of max 140 characters")),
   });
@@ -48,8 +49,6 @@ function followUserValidator(req, res, next) {
   const schema = Joi.object({
     id: Joi.string()
       .alphanum()
-      .min(3)
-      .max(30)
       .required()
       .error(new BadRequest("id is a required field")),
   });
