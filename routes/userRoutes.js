@@ -5,8 +5,8 @@ const {
   editUserValidator,
   followUserValidator,
 } = require("../validators/userValidator");
-const userController = require("../controller/users");
 const authenticate = require("../middlewares/jwt");
+const userController = require("../controller/users");
 
 const router = Router();
 

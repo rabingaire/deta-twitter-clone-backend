@@ -1,7 +1,6 @@
 const db = require("../model/follower");
-
-const { ForbiddenRequest } = require("../utils/errors");
 const { removeItem } = require("../utils/utils");
+const { ForbiddenRequest } = require("../utils/errors");
 
 async function followUser(user) {
   const { username, id } = user;

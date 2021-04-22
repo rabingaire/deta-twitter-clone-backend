@@ -1,8 +1,7 @@
 const db = require("../model/tweet");
-
-const { ForbiddenRequest } = require("../utils/errors");
-const { removeItem } = require("../utils/utils");
 const { getFollowing } = require("./followingService");
+const { ForbiddenRequest } = require("../utils/errors");
+const { removeItem, shuffleArray } = require("../utils/utils");
 
 async function createTweet(tweet) {
   const { username, body } = tweet;
@@ -12,6 +11,7 @@ async function createTweet(tweet) {
     body,
     retweets: 0,
     likes: { count: 0, usernames: [] },
+    createdAt: new Date().getTime(),
   };
 
   const res = await db.tweets.put(data);
@@ -104,9 +104,25 @@ async function fetchTweets(username) {
   });
 }
 
-async function fetchSingleTweet(username) {
-  const { value } = await db.tweets.fetch({ username }).next();
-  return value;
+async function fetchLatestTweets(username) {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+
+  const end = new Date();
+  end.setHours(23, 59, 59, 999);
+
+  const response = [];
+
+  const tweets = await db.tweets.fetch({
+    username,
+    "createdAt?r": [start.getTime(), end.getTime()],
+  });
+
+  for await (const tweet of tweets) {
+    response.push(...tweet);
+  }
+
+  return shuffleArray(response);
 }
 
 async function getMyTweetsFeed(user) {
@@ -114,20 +130,22 @@ async function getMyTweetsFeed(user) {
 
   const tweets = [];
 
-  tweets.push(...(await fetchSingleTweet(username)));
+  tweets.push(...(await fetchLatestTweets(username)));
 
   const following = await getFollowing(username);
   const promises = following.usernames.map(async (username) => {
-    return await fetchSingleTweet(username);
+    return await fetchLatestTweets(username);
   });
 
   const followingTweets = await Promise.all(promises);
   tweets.push(...followingTweets.flat());
 
-  return tweets.map((tweet) => {
-    const isLiked = tweet.likes.usernames.includes(username);
-    return { ...tweet, likes: { ...tweet.likes, isLiked } };
-  });
+  return shuffleArray(
+    tweets.map((tweet) => {
+      const isLiked = tweet.likes.usernames.includes(username);
+      return { ...tweet, likes: { ...tweet.likes, isLiked } };
+    })
+  );
 }
 
 module.exports = {

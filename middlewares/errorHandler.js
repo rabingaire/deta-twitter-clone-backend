@@ -1,3 +1,5 @@
+const { StatusCodes } = require("http-status-codes");
+
 const { GeneralError } = require("../utils/errors");
 
 function handleErrors(err, req, res, next) {
@@ -10,9 +12,9 @@ function handleErrors(err, req, res, next) {
     });
   }
 
-  return res.status(500).json({
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     error: {
-      status: 500,
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: err.message,
     },
   });

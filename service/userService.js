@@ -1,11 +1,10 @@
-const db = require("../model/user");
-
-const { BadRequest, NotFound } = require("../utils/errors");
-const { getFollowers } = require("./followerService");
-const { getFollowing } = require("./followingService");
-
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+
+const db = require("../model/user");
+const { getFollowers } = require("./followerService");
+const { getFollowing } = require("./followingService");
+const { BadRequest, NotFound } = require("../utils/errors");
 
 async function createUser(user) {
   const { username, password } = user;
@@ -26,6 +25,7 @@ async function createUser(user) {
     password: encyptPassword,
     key: username,
     description: "",
+    createdAt: new Date().getTime(),
   });
 
   return {

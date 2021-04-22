@@ -1,13 +1,15 @@
 const jwt = require("jsonwebtoken");
+const { StatusCodes } = require("http-status-codes");
+
 const db = require("../model/user");
 
 function authenticate(req, res, next) {
   const authHeader = req.get("X-Authorization");
 
   if (!authHeader) {
-    return res.status(401).json({
+    return res.status(StatusCodes.UNAUTHORIZED).json({
       error: {
-        status: 401,
+        status: StatusCodes.UNAUTHORIZED,
         message: "invalid JWT token",
       },
     });
@@ -17,9 +19,9 @@ function authenticate(req, res, next) {
 
   jwt.verify(token, process.env.JWT_TOKEN_SECRET, async (err, user) => {
     if (err) {
-      return res.status(401).json({
+      return res.status(StatusCodes.UNAUTHORIZED).json({
         error: {
-          status: 401,
+          status: StatusCodes.UNAUTHORIZED,
           message: "invalid JWT token",
         },
       });
@@ -27,9 +29,9 @@ function authenticate(req, res, next) {
 
     const userdata = await db.users.get(user.username);
     if (!userdata) {
-      return res.status(403).json({
+      return res.status(StatusCodes.FORBIDDEN).json({
         error: {
-          status: 403,
+          status: StatusCodes.FORBIDDEN,
           message: "forbidden error can't process the request",
         },
       });

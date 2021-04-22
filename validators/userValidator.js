@@ -1,7 +1,7 @@
 const Joi = require("joi");
-const { BadRequest } = require("../utils/errors");
 
 const validate = require("../utils/validate");
+const { BadRequest } = require("../utils/errors");
 
 function userauthValidator(req, res, next) {
   const schema = Joi.object({

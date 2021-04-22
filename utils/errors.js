@@ -1,3 +1,5 @@
+const { StatusCodes } = require("http-status-codes");
+
 class GeneralError extends Error {
   constructor(message) {
     super();
@@ -6,18 +8,18 @@ class GeneralError extends Error {
 
   getCode() {
     if (this instanceof BadRequest) {
-      return 400;
+      return StatusCodes.BAD_REQUEST;
     }
 
     if (this instanceof ForbiddenRequest) {
-      return 403;
+      return StatusCodes.FORBIDDEN;
     }
 
     if (this instanceof NotFound) {
-      return 404;
+      return StatusCodes.NOT_FOUND;
     }
 
-    return 500;
+    return StatusCodes.INTERNAL_SERVER_ERROR;
   }
 }
 

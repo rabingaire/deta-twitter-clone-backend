@@ -4,8 +4,8 @@ const {
   tweetCreateValidator,
   tweetActionValidator,
 } = require("../validators/tweetValidator");
-const tweetController = require("../controller/tweets");
 const authenticate = require("../middlewares/jwt");
+const tweetController = require("../controller/tweets");
 
 const router = Router();
 

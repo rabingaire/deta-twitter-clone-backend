@@ -1,8 +1,7 @@
 require("./env");
-
 const { app } = require("./app");
-const handleErrors = require("./middlewares/errorHandler");
 const routers = require("./routes");
+const handleErrors = require("./middlewares/errorHandler");
 
 app.get("/", (req, res) => {
   res.send("Hello World");

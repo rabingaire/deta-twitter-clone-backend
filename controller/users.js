@@ -1,8 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
 
 const userService = require("../service/userService");
-const followingService = require("../service/followingService");
 const followerService = require("../service/followerService");
+const followingService = require("../service/followingService");
 
 function create(req, res, next) {
   userService
