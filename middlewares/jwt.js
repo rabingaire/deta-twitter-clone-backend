@@ -17,9 +17,9 @@ function authenticate(req, res, next) {
 
   jwt.verify(token, process.env.JWT_TOKEN_SECRET, async (err, user) => {
     if (err) {
-      return res.status(403).json({
+      return res.status(401).json({
         error: {
-          status: 403,
+          status: 401,
           message: "invalid JWT token",
         },
       });
