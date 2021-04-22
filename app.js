@@ -5,7 +5,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://6xnhbj.deta.dev"],
+    origin: [
+      "http://localhost:3000",
+      "https://twitter-clone-nepal.netlify.app",
+    ],
   })
 );
 app.use(express.json());
