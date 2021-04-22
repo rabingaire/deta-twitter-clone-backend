@@ -54,7 +54,7 @@ function myprofile(req, res, next) {
 
 function getUserProfile(req, res, next) {
   userService
-    .getUserProfile(req.params)
+    .getUserProfile({ username: req.body.username, userid: req.params.userid })
     .then((data) => res.status(StatusCodes.OK).json({ data }))
     .catch((err) => next(err));
 }

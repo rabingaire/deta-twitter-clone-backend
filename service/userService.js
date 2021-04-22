@@ -82,9 +82,11 @@ async function myprofile(user) {
 }
 
 async function getUserProfile(params) {
-  const { userid } = params;
+  const { username, userid } = params;
   const userinfo = await getprofileInfo(userid);
-  return userinfo;
+  const isFollowing = userinfo.followers.usernames.includes(username);
+
+  return { ...userinfo, isFollowing };
 }
 
 async function getprofileInfo(username) {
