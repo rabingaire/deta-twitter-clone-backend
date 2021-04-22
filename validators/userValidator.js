@@ -8,9 +8,13 @@ function userauthValidator(req, res, next) {
     username: Joi.string()
       .alphanum()
       .min(3)
-      .max(30)
+      .max(10)
       .required()
-      .error(new BadRequest("username is a required field")),
+      .error(
+        new BadRequest(
+          "username must contain min of 3 characters and max of 10 characters"
+        )
+      ),
     password: Joi.string()
       .pattern(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\^$*.[\]{}()?\-“!@#%&/,><’:;|_~`])\S{6,99}$/
@@ -18,7 +22,7 @@ function userauthValidator(req, res, next) {
       .required()
       .error(
         new BadRequest(
-          "password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+          "password must contain at least one uppercase character, one lowercase character, one number and one special character"
         )
       ),
   });
@@ -35,7 +39,11 @@ function editUserValidator(req, res, next) {
     description: Joi.string()
       .min(1)
       .max(140)
-      .error(new BadRequest("description can only be of max 140 characters")),
+      .error(
+        new BadRequest(
+          "description cannot be empty or more than 140 characters"
+        )
+      ),
   });
 
   return validate(req.body, schema)
