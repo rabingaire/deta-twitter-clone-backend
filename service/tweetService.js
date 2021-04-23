@@ -98,7 +98,11 @@ async function fetchTweets(username) {
     response.push(...tweet);
   }
 
-  return response.map((tweet) => {
+  const sortedResponse = response.sort((a, b) => {
+    return b.createdAt - a.createdAt;
+  });
+
+  return sortedResponse.map((tweet) => {
     const isLiked = tweet.likes.usernames.includes(username);
     return { ...tweet, likes: { ...tweet.likes, isLiked } };
   });
